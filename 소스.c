@@ -33,9 +33,6 @@ void insert(char ch)
 }
 
 /* push 기능 */
-
-
-
 void push(char symbol)
 {
 	struct node *p;
@@ -55,7 +52,7 @@ void push(char symbol)
 
 char pop()
 {
-	struct node *x, *y;
+	struct node *x;
 	char k;
 	if (top == NULL)
 	{
@@ -160,21 +157,63 @@ void intopost(char infix[])
 	{
 		temp = pop();
 		insert(temp);
-
 	}
+	
 	displaypost();
 	return;
 }
+
+char evalPostfix(char * exp) {
+	double opr1, opr2;
+	int value, i=0, count=0;
+	int length = strlen(exp);
+	char symbol;
+
+	for(i=0; i<length; i++) {
+		symbol = exp[i];
+		if(symbol >= '0' && symbol <= '9') {
+			while(exp[i + count] != ' ') {
+				count++;
+			}
+			value = atoi(&exp[i]);
+			i+=count;
+			count = 0;
+			push(value);
+		}
+
+		else {
+			if(symbol != ' ') {
+				opr2 = pop();
+				opr1 = pop();
+
+				switch(symbol) {
+					case '+' : push(opr1 + opr2); break;
+					case '-' : push(opr1 - opr2); break;
+					case '*' : push(opr1 * opr2); break;
+					case '/' : push(opr1 / opr2); break;
+				}
+			}
+		}
+
+	}
+
+	return pop();
+}
+
+
 
 
 int main()
 {
 	char infix[50];
-	printf("enter infix expression: ");
+	printf("Infix  표현: ");
 	fgets(infix, 50, stdin);
 
-	printf("\n\n equivalent postfix expression is---> ");
+	printf("\n\n Postfix 표현: ");
 	intopost(infix);
 	getchar();
+
+	printf("\n\n 결과값 : ");
+	evalPostfix(to);
 	return 0;
 }
