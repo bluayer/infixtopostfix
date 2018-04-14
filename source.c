@@ -1,4 +1,4 @@
-#include<st#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,18 +11,17 @@ char expr[MAX_EXPR_SIZE];		// 수식을 저장하는 문자배열.
 
 typedef enum {
 	lparen, rparen, plus, minus, times, divide, eos, operand
-} precedence; // 우선순위
+} precedence; 
 
 typedef struct Node //노드 정의
 {
-	double data;
-	struct Node *next;
+	double data; // 저장할 데이터
+	struct Node *next; 
 }Node;
 
 typedef struct{
-	Node *top;
+	Node *top; // 스택의 탑
 }Stack;
-
 
 void InitStack(Stack *stack);
 int IsEmpty(Stack *stack);
@@ -55,7 +54,7 @@ int main()
 
 int IsEmpty(Stack *stack)
 {
-	return stack->top == NULL;
+	return stack->top == NULL; // 스택 탑이 NULL인지 확인
 }
 
 void InitStack(Stack *stack)
@@ -81,7 +80,7 @@ void Push(Stack *stack, double data)
 double Pop(Stack *stack)
 {
 	Node *now;
-	double re;
+	double re; // 꺼낼 값
 	if (IsEmpty(stack))
 	{
 		return eos;
@@ -146,8 +145,8 @@ void postfix(void)
 	Stack st;
 	char symbol;				// 연산자, 피연산자 
 	char expr_post[MAX_EXPR_SIZE] = { 0, }; // 후위 표기식으로 저장하는 문자열.
-	char* str = expr_post;
-	precedence token;			// 토큰을 받는 변수
+	char* str = expr_post; // 후위 표기식으로 바꾸어 저장하는 문자열의 위치를 읽는 포인터
+	precedence token; // 토큰을 받는 변수
 	int n = 0;	// 문자열의 인덱스
 
 	InitStack(&st);
@@ -206,10 +205,9 @@ double eval(void)
 	double	op1 = 0.0, op2 = 0.0;	// 피연산자 1 ,2
 	int	n = 0;		// 문자열의 인덱스
 
-		while (*ppostfix != '\0') {
-			// 피연산자라면 문자를 숫자로 변환해서 스택에 넣는다.		
-			if (isspace(*ppostfix)) {
-					ppostfix++;
+		while (*ppostfix != '\0') {	
+			if (isspace(*ppostfix)) { // 공백이라면
+					ppostfix++; //포인터 증가
 					continue;
 			}
 			if (isdigit(*ppostfix)) {
@@ -229,7 +227,6 @@ double eval(void)
 				}
 				ppostfix++;
 			}
-			// 연산후 해당 문자의 토큰값을 받아온다
 		}
 	// 최종 결과 값을 반환.
 	return Pop(&st); // 결과 반환
